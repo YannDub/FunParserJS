@@ -1,0 +1,15 @@
+{
+  "name": "funparserjs",
+  "version": "1.0.0",
+  "description": "Based to make functionnal parser in js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "parser",
+    "functionnal"
+  ],
+  "author": "YannDub",
+  "license": "ISC"
+}
