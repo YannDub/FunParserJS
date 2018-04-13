@@ -32,3 +32,5 @@ const string = s => {
                    success(s[0] + s.slice(1))
                  ))
 }
+
+module.exports = {Nothing, Just, anyChar, fail, success, runParser, alternate, combine, charCond, char, string}
