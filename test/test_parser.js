@@ -110,4 +110,40 @@ describe("parser", () => {
       done();
     })
   })
+
+  describe(".digit", () => {
+    it('simple', (done) => {
+      expect(parser.runParser(parser.digit, '1')).to.be.an('array').that.includes('1');
+      done();
+    })
+
+    it('fail', (done) => {
+      expect(parser.runParser(parser.digit, 'a')).to.be.an('array').that.is.empty;
+      done();
+    })
+  })
+
+  describe(".number", () => {
+    it('simple', (done) => {
+      expect(parser.runParser(parser.number, '123')[0]).to.be.an('array').that.includes('3');
+      done();
+    })
+
+    it('simple', (done) => {
+      expect(parser.runParser(parser.number, 'foo')).to.be.an('array').that.is.empty;
+      done();
+    })
+  })
+
+  describe(".int", () => {
+    it('simple', (done) => {
+      expect(parser.runParser(parser.int, '123')).to.be.an('array').that.includes(123);
+      done();
+    })
+
+    it('fail', (done) => {
+      expect(parser.runParser(parser.int, 'foo')).to.be.an("array").that.is.empty;
+      done();
+    })
+  })
 })

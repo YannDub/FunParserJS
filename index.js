@@ -47,4 +47,12 @@ const oneOrMore = p => {
 
 const zeroOrMore = p => alternate(oneOrMore(p), success([]));
 
-module.exports = {Nothing, Just, anyChar, fail, success, runParser, alternate, combine, charCond, char, string, oneOrMore, zeroOrMore}
+const isDigit = c => c == '0' || c == '1' || c == '2' || c == '3' || c == '4' ||
+                     c == '5' || c == '6' || c == '7' || c == '8' || c == '9';
+
+const digit = charCond(isDigit);
+const number = oneOrMore(digit);
+const int = combine(number, cs => success(parseInt(cs.join(''))));
+
+module.exports = {Nothing, Just, anyChar, fail, success, runParser, alternate, combine,
+                  charCond, char, string, oneOrMore, zeroOrMore, digit, number, int}
