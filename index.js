@@ -1,11 +1,17 @@
 'use strict'
 
-const Nothing = s => []
+const Nothing = () => []
 const Just = (v, s) => [v, s];
+
+const resEquals = (a, b) => {
+  if(a.length == 0 && b.length == 0) return true;
+  if(a[0] == b[0] && a[1] == b[1]) return true;
+  return false;
+}
 
 // Parser a == () =>
 
-const anyChar = () => s => s == "" ? Nothing : Just(s[0], s.slice(1));
+const anyChar = () => s => s == "" ? Nothing() : Just(s[0], s.slice(1));
 const fail = () => Nothing;
 const success = (v) => () => s => Just(v, s);
 
@@ -13,13 +19,13 @@ const runParser = (p, s) => p()(s);
 
 const alternate = (p1, p2) => () => (s) => {
   let res = runParser(p1, s);
-  if(res == Nothing) res = runParser(p2, s);
+  if(resEquals(res, Nothing())) res = runParser(p2, s);
   return res;
 }
 
 const combine = (p, f) => () => s => {
   let res = runParser(p, s);
-  if(res == Nothing) return res;
+  if(resEquals(res, Nothing)) return res;
   return runParser(f(res[0]), res[1]);
 }
 
