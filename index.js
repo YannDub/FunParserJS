@@ -39,4 +39,12 @@ const string = s => {
                  ))
 }
 
-module.exports = {Nothing, Just, anyChar, fail, success, runParser, alternate, combine, charCond, char, string}
+const oneOrMore = p => {
+  return combine(p, x =>
+         combine(zeroOrMore(p), xs =>
+         success([x, ...xs])))
+}
+
+const zeroOrMore = p => alternate(oneOrMore(p), success([]));
+
+module.exports = {Nothing, Just, anyChar, fail, success, runParser, alternate, combine, charCond, char, string, oneOrMore, zeroOrMore}

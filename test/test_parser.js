@@ -90,4 +90,24 @@ describe("parser", () => {
       done();
     })
   })
+
+  describe(".oneOrMore", () => {
+    it('simple', (done) => {
+      expect(parser.runParser(parser.oneOrMore(parser.char('f')), 'ffoo')[0]).to.be.an('array').that.includes('f');
+      done();
+    })
+
+    it('fail', (done) => {
+      expect(parser.runParser(parser.oneOrMore(parser.char('f')), 'bar')).to.be.an('array').that.is.empty;
+      done();
+    })
+  })
+
+  describe(".zeroOrMore", () => {
+    it('simple', (done) => {
+      expect(parser.runParser(parser.zeroOrMore(parser.char('f')), 'ffoo')[0]).to.be.an('array').that.includes('f');
+      expect(parser.runParser(parser.zeroOrMore(parser.char('b')), 'ffoo')[0]).to.be.an('array').that.is.empty;
+      done();
+    })
+  })
 })
