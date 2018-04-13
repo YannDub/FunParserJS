@@ -29,7 +29,7 @@ describe("parser", () => {
     })
   })
 
-  describe(".alternate", (done) => {
+  describe(".alternate", () => {
     it("simple", (done) => {
       expect(parser.runParser(parser.alternate(parser.success('OK'), parser.fail), "foo")).to.be.an('array').that.includes('OK');
       expect(parser.runParser(parser.alternate(parser.fail, parser.success('OK')), "foo")).to.be.an('array').that.includes('OK');
@@ -42,7 +42,7 @@ describe("parser", () => {
     })
   })
 
-  describe(".combine", (done) => {
+  describe(".combine", () => {
     it("simple", (done) => {
       expect(parser.runParser(parser.combine(parser.anyChar, c => parser.success(c)), 'foo')).to.be.an('array').that.includes('f');
       done();
@@ -51,6 +51,42 @@ describe("parser", () => {
     it("fail", (done) => {
       expect(parser.runParser(parser.combine(parser.anyChar, c => parser.fail), 'foo')).to.be.an('array').that.is.empty;
       expect(parser.runParser(parser.combine(parser.fail, _ => parser.success('fail')), 'foo')).to.be.an('array').that.is.empty;
+      done();
+    })
+  })
+
+  describe(".charCond", () => {
+    it("simple", (done) => {
+      expect(parser.runParser(parser.charCond(c => c == 'f'), 'foo')).to.be.an('array').that.includes('f');
+      done();
+    })
+
+    it("fail", (done) => {
+      expect(parser.runParser(parser.charCond(c => c == 'b'), 'foo')).to.be.an('array').that.is.empty;
+      done();
+    })
+  })
+
+  describe(".char", () => {
+    it('simple', (done) => {
+      expect(parser.runParser(parser.char('f'), 'foo')).to.be.an('array').that.includes('f');
+      done();
+    })
+
+    it('fail', (done) => {
+      expect(parser.runParser(parser.char('b'), 'foo')).to.be.an('array').that.is.empty;
+      done();
+    })
+  })
+
+  describe(".string", () => {
+    it('simple', (done) => {
+      expect(parser.runParser(parser.string('fo'), 'foo')).to.be.an('array').that.includes('fo');
+      done();
+    })
+
+    it('fail', (done) => {
+      expect(parser.runParser(parser.string('bar'), 'foo')).to.be.an('array').that.is.empty;
       done();
     })
   })
