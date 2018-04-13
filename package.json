@@ -1,6 +1,6 @@
 {
   "name": "funparserjs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Based to make functionnal parser in js",
   "main": "index.js",
   "repository": "https://github.com/YannDub/FunParserJS.git",
