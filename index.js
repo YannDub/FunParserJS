@@ -29,14 +29,23 @@ const combine = (p, f) => () => s => {
   return runParser(f(res[0]), res[1]);
 }
 
+const combines = (p, ...f) => () => s => {
+  let res = runParser(p, s);
+  if(resEquals(res, Nothing) || f.length == 0) return res;
+
+  let head, tail;
+  [head, ...tail] = f;
+  return runParser(combines(head(res[0]),...tail), res[1])
+}
+
 const charCond = (cond) => combine(anyChar, (c) => cond(c) ? success(c) : fail);
 const char = c => charCond((c2) => c == c2);
 const string = s => {
   return s == "" ? success(s)
-                 : combine(char(s[0]), _ =>
-                   combine(string(s.slice(1)), _ =>
-                   success(s[0] + s.slice(1))
-                 ))
+                 : combines(char(s[0]),
+                    _ => string(s.slice(1)),
+                    _ => success(s[0] + s.slice(1))
+                 )
 }
 
 const oneOrMore = p => {
@@ -54,5 +63,5 @@ const digit = charCond(isDigit);
 const number = oneOrMore(digit);
 const int = combine(number, cs => success(parseInt(cs.join(''))));
 
-module.exports = {Nothing, Just, anyChar, fail, success, runParser, alternate, combine,
+module.exports = {Nothing, Just, anyChar, fail, success, runParser, alternate, combine, combines,
                   charCond, char, string, oneOrMore, zeroOrMore, digit, number, int}

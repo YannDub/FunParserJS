@@ -55,6 +55,19 @@ describe("parser", () => {
     })
   })
 
+  describe(".combines", () => {
+    it("simple", (done) => {
+      expect(parser.runParser(parser.combines(parser.anyChar, c => parser.success(c)), 'foo')).to.be.an('array').that.includes('f');
+      done();
+    })
+
+    it("fail", (done) => {
+      expect(parser.runParser(parser.combines(parser.anyChar, c => parser.fail), 'foo')).to.be.an('array').that.is.empty;
+      expect(parser.runParser(parser.combines(parser.fail, _ => parser.success('fail')), 'foo')).to.be.an('array').that.is.empty;
+      done();
+    })
+  })
+
   describe(".charCond", () => {
     it("simple", (done) => {
       expect(parser.runParser(parser.charCond(c => c == 'f'), 'foo')).to.be.an('array').that.includes('f');
