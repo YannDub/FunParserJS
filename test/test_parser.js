@@ -32,7 +32,7 @@ describe("parser", () => {
   describe(".alternate", () => {
     it("simple", (done) => {
       expect(parser.runParser(parser.alternate(parser.success('OK'), parser.fail), "foo")).to.be.an('array').that.includes('OK');
-      expect(parser.runParser(parser.alternate(parser.fail, parser.success('OK')), "foo")).to.be.an('array').that.includes('OK');
+      expect(parser.runParser(parser.alternate(parser.fail, parser.fail, parser.success('OK')), "foo")).to.be.an('array').that.includes('OK');
       done();
     })
 

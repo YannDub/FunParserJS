@@ -17,9 +17,12 @@ const success = (v) => () => s => Just(v, s);
 
 const runParser = (p, s) => p()(s);
 
-const alternate = (p1, p2) => () => (s) => {
+const alternate = (p1, ...p2) => () => (s) => {
   let res = runParser(p1, s);
-  if(resEquals(res, Nothing())) res = runParser(p2, s);
+  if(p2.length == 0) return res;
+  let head, tail;
+  [head, ...tail] = p2;
+  if(resEquals(res, Nothing())) res = runParser(alternate(head, ...tail), s);
   return res;
 }
 

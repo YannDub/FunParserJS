@@ -15,7 +15,7 @@ npm install funparserjs
 - `anyChar`: parse any character in a string
 - `fail`: parser that always failed
 - `success(v)`: parser that always success and return v
-- `alternate(p1,p2)`: parser that success if one the two parser success, else fail
+- `alternate(p1,...p2)`: parser that run the first parser executable in parameters
 - `combine(p,f)`: parser that combine a parser and a function that return a parser
 - `combines(p, ...f)`: parser that combine recursively with the result of the previous function,
 - `charCond(cond)`: parser that success if the character condition is good else fail
